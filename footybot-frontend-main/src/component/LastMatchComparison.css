@@ -1,0 +1,40 @@
+/* src/component/LastMatchComparison.css */
+.last-match-container {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 2rem;
+}
+.last-match-container h4 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+.comparison-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+.stat-comparison .stat-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.stat-comparison .label {
+    color: #6c757d;
+    font-weight: normal;
+}
+.stat-bar-container {
+    width: 100%;
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    display: flex;
+}
+.stat-bar.team1 {
+    background-color: #007bff;
+    height: 100%;
+    border-radius: 5px;
+}

@@ -1,0 +1,445 @@
+/* src/component/FootballData.css */
+
+.football-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.football-container h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.teams-section {
+    color: #34495e;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    border-bottom: 3px solid #3498db;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    padding: 20px;
+
+}
+/* Styling for the "View Standings" toggle button */
+
+.view-toggle {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.view-toggle button {
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 25px; /* Pill shape */
+  border: none;
+  background-color: #007bff; /* Solid blue */
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.view-toggle button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.team-card, .player-card {
+    background: white;
+    border: 2px solid #ecf0f1;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.team-card:hover, .player-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #3498db;
+}
+
+.team-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    height: 80px;
+}
+
+.team-logo img {
+    max-width: 60px;
+    max-height: 60px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.team-card:hover .team-logo img {
+    transform: scale(1.1);
+}
+
+.team-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    line-height: 1.4;
+}
+
+.back-button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+    background: #2980b9;
+}
+
+/* Player card styles */
+.player-photo-container {
+    margin-bottom: 15px;
+}
+
+.player-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #3498db;
+}
+
+.player-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.player-detail {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 3px 0;
+}
+
+/* ===== MODERN SEARCH BAR STYLES ===== */
+.search-container {
+    margin: 2rem auto;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+}
+
+/* Arsenal-themed modern search */
+.modern-search-wrapper {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+    border: 2px solid #ffd700;
+    border-radius: 30px;
+    padding: 8px;
+    box-shadow: 0 8px 25px rgba(220, 20, 60, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.modern-search-wrapper:hover {
+    box-shadow: 0 12px 35px rgba(220, 20, 60, 0.4);
+    transform: translateY(-2px);
+}
+
+.modern-search-wrapper:focus-within {
+    box-shadow: 0 12px 35px rgba(220, 20, 60, 0.4);
+    transform: translateY(-2px);
+    border-color: #ffed4e;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 22px;
+    margin-right: 8px;
+    color: #333;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: #666;
+    font-weight: 400;
+}
+
+.search-input:focus {
+    background: white;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.search-btn {
+    background: #ffd700;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #dc143c;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.search-btn:hover {
+    background: #ffed4e;
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+}
+
+.search-btn:active {
+    transform: scale(0.95);
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+/* Clear button for search */
+.search-clear-btn {
+    position: absolute;
+    right: 65px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-clear-btn:hover {
+    color: #666;
+    background: rgba(0,0,0,0.1);
+}
+
+/* Alternative glassmorphism search (if you want to switch styles) */
+.glass-search-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+}
+
+.glass-search-wrapper:hover {
+    background: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.glass-search-wrapper .search-input {
+    background: transparent;
+    color: #333;
+}
+
+.glass-search-wrapper .search-btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+}
+
+/* Search results/suggestions */
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    z-index: 1000;
+    margin-top: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.search-suggestion-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.search-suggestion-item:hover {
+    background-color: #f8f9fa;
+}
+
+.search-suggestion-item:last-child {
+    border-bottom: none;
+}
+
+/* Loading state */
+.search-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #666;
+}
+
+.search-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #dc143c;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .football-container {
+        padding: 15px;
+    }
+    
+    .football-container h1 {
+        font-size: 2rem;
+    }
+    
+    .teams-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+    }
+    
+    .team-card, .player-card {
+        padding: 15px;
+    }
+    
+    .search-container {
+        margin: 1rem auto;
+        max-width: 90%;
+    }
+    
+    .modern-search-wrapper {
+        padding: 6px;
+    }
+    
+    .search-input {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+    
+    .search-btn {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .search-icon {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-container {
+        max-width: 95%;
+    }
+    
+    .modern-search-wrapper {
+        padding: 4px;
+    }
+    
+    .search-input {
+        padding: 8px 12px;
+        font-size: 14px;
+        margin-right: 4px;
+    }
+    
+    .search-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .search-icon {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* Animation for search button */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+    }
+}
+
+.search-btn.searching {
+    animation: pulse 1.5s infinite;
+    /* Add this to FootballData.css */
+.view-toggle {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.view-toggle button {
+  padding: 10px 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 25px;
+  border: 2px solid #007bff;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.view-toggle button:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+}

@@ -1,0 +1,51 @@
+/* src/component/TeamCard.css */
+
+.team-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%; /* Make cards in a row the same height */
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.team-logo {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 15px;
+}
+
+.team-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    flex-grow: 1; /* Pushes details to the bottom */
+}
+
+.team-details {
+    font-size: 0.85rem;
+    color: #555;
+    line-height: 1.5;
+    text-align: left;
+    width: 100%;
+}
+
+.team-details p {
+    margin: 4px 0;
+    word-wrap: break-word; /* Prevents long text from overflowing */
+}
+
+.team-details p strong {
+    color: #333;
+}

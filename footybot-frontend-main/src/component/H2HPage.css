@@ -1,0 +1,61 @@
+/* src/component/H2HPage.css */
+.h2h-container {
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+.h2h-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.h2h-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.h2h-selector select {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    flex-grow: 1;
+}
+
+.h2h-selector .vs {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.h2h-selector button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.h2h-selector button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.h2h-results {
+    display: grid;
+    gap: 1rem;
+}
+
+.h2h-results .message {
+    text-align: center;
+    color: #555;
+    font-style: italic;
+}

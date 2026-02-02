@@ -1,0 +1,10 @@
+# Netlify Build Settings
+[build]
+  # This tells Netlify where your frontend code is
+  base = "footybot-frontend-main"
+
+  # This is the command to build the site
+  command = "npm run build"
+
+  # This is the folder to publish
+  publish = "build"
