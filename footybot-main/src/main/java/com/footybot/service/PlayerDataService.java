@@ -21,55 +21,57 @@ import com.footybot.model.Team;
 
 @Service
 public class PlayerDataService {
-    
 
     private List<Player> allPlayers = new ArrayList<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
- public PlayerDataService() {
-    System.out.println("--> 1. PlayerDataService constructor has been called.");
-    File dataFile = new File("C:\\footydata\\players.json");
+    public PlayerDataService() {
+        System.out.println("--> 1. PlayerDataService constructor has been called.");
 
-    if (!dataFile.exists()) {
-        System.err.println("--> CRITICAL ERROR: File not found...");
-        return;
-    }
+        // Load players.json from the classpath so it works both locally and on Render.
+        // Place the file at: src/main/resources/players.json
+        InputStream is = getClass().getClassLoader().getResourceAsStream("players.json");
 
-    try (InputStream is = new FileInputStream(dataFile)) {
-        System.out.println("--> 2. Reading and parsing complex JSON structure...");
-        
-        // This is the correct logic for your nested JSON file
-        JsonNode root = objectMapper.readTree(is);
-        JsonNode teamsNode = root.path("teams"); 
+        if (is == null) {
+            System.err.println("--> CRITICAL ERROR: players.json not found on classpath. " +
+                    "Make sure src/main/resources/players.json exists.");
+            return;
+        }
 
-        if (teamsNode.isArray()) {
-            for (JsonNode teamNode : teamsNode) {
-                String teamName = teamNode.path("name").asText();
-                String teamLogo = teamNode.path("crest").asText(); // Get the team crest URL
-                JsonNode squadNode = teamNode.path("squad");
+        try (InputStream autoCloseIs = is) {
+            System.out.println("--> 2. Reading and parsing complex JSON structure from classpath players.json...");
 
-                if (squadNode.isArray()) {
-                    for (JsonNode playerNode : squadNode) {
-                        Player player = new Player();
-                        player.setId(playerNode.path("id").asLong(0));
-                        player.setName(playerNode.path("name").asText(null));
-                        player.setPosition(playerNode.path("position").asText(null));
-                        player.setNationality(playerNode.path("nationality").asText(null));
-                        player.setTeam(teamName);
-                        player.setPhotoUrl(teamLogo); // Set player photo to the team's crest
-                        allPlayers.add(player);
+            JsonNode root = objectMapper.readTree(autoCloseIs);
+            JsonNode teamsNode = root.path("teams");
+
+            if (teamsNode.isArray()) {
+                for (JsonNode teamNode : teamsNode) {
+                    String teamName = teamNode.path("name").asText();
+                    String teamLogo = teamNode.path("crest").asText(); // Get the team crest URL
+                    JsonNode squadNode = teamNode.path("squad");
+
+                    if (squadNode.isArray()) {
+                        for (JsonNode playerNode : squadNode) {
+                            Player player = new Player();
+                            player.setId(playerNode.path("id").asLong(0));
+                            player.setName(playerNode.path("name").asText(null));
+                            player.setPosition(playerNode.path("position").asText(null));
+                            player.setNationality(playerNode.path("nationality").asText(null));
+                            player.setTeam(teamName);
+                            player.setPhotoUrl(teamLogo); // Set player photo to the team's crest
+                            allPlayers.add(player);
+                        }
                     }
                 }
             }
-        }
-        
-        System.out.println("--> 3. ✅ Loaded " + allPlayers.size() + " total players from the data file.");
 
-    } catch (IOException e) {
-        System.err.println("--> CATASTROPHIC ERROR reading or parsing players.json: " + e.getMessage());
-        e.printStackTrace();
+            System.out.println("--> 3. ✅ Loaded " + allPlayers.size() + " total players from the data file.");
+
+        } catch (IOException e) {
+            System.err.println("--> CATASTROPHIC ERROR reading or parsing players.json: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-}
 
     // The rest of this file is now correct and doesn't need to change
     public List<Player> getPlayersByTeamName(String teamNameFromFrontend) {

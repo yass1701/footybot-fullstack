@@ -56,7 +56,6 @@ public class ExternalFootballApiService {
         }
     }
 
-
     // **MODIFIED METHOD:** Added error handling and fallback data
     public List<Player> fetchPlayersForTeam(int teamId) {
         String responseBody = "";
@@ -151,7 +150,6 @@ public class ExternalFootballApiService {
                 return 0;
             }
         }
-        
     }
 
     public String fetchPremierLeagueTeams() throws IOException, InterruptedException {
