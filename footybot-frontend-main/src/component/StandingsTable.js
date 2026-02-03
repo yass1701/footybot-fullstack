@@ -2,8 +2,17 @@ import React from 'react';
 import './StandingsTable.css';
 
 const StandingsTable = ({ standings }) => {
-    if (!standings || standings.length === 0) {
+    if (!standings) {
         return <p>Loading standings...</p>;
+    }
+    
+    if (standings.length === 0) {
+        return (
+            <div style={{ textAlign: 'center', padding: '20px' }}>
+                <p style={{ color: '#666' }}>No standings data available.</p>
+                <p style={{ color: '#999', fontSize: '14px' }}>The standings table is empty. This might be because no matches have been added yet.</p>
+            </div>
+        );
     }
 
     return (

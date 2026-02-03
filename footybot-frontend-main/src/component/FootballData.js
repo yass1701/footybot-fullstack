@@ -33,20 +33,38 @@ const FootballData = () => {
             };
 
             try {
+                console.log('Fetching data from:', API_BASE);
+                console.log('Token present:', !!token);
+                
                 const [teamsRes, standingsRes] = await Promise.all([
                     fetch(`${API_BASE}/api/football-data`, { headers }),
                     fetch(`${API_BASE}/api/standings`, { headers })
                 ]);
                 
-                if (!teamsRes.ok || !standingsRes.ok) {
-                    throw new Error('Failed to fetch initial data from the server.');
+                console.log('Teams response status:', teamsRes.status, teamsRes.ok);
+                console.log('Standings response status:', standingsRes.status, standingsRes.ok);
+                
+                if (!teamsRes.ok) {
+                    const errorText = await teamsRes.text();
+                    console.error('Teams API error:', errorText);
+                    throw new Error(`Failed to fetch teams: ${teamsRes.status} ${errorText}`);
+                }
+                
+                if (!standingsRes.ok) {
+                    const errorText = await standingsRes.text();
+                    console.error('Standings API error:', errorText);
+                    throw new Error(`Failed to fetch standings: ${standingsRes.status} ${errorText}`);
                 }
                 
                 const teamsData = await teamsRes.json();
                 const standingsData = await standingsRes.json();
 
+                console.log('Teams data:', teamsData);
+                console.log('Standings data:', standingsData);
+                console.log('Standings array length:', Array.isArray(standingsData) ? standingsData.length : 'not an array');
+
                 if (teamsData.teams) setTeams(teamsData.teams);
-                setStandings(standingsData);
+                setStandings(Array.isArray(standingsData) ? standingsData : []);
 
             } catch (err) {
                 console.error('Error fetching initial data:', err);
@@ -95,7 +113,20 @@ const FootballData = () => {
     };
 
     if (loading) return <p style={{ textAlign: 'center' }}>Loading all data...</p>;
-    if (error) return <p style={{ color: 'red', textAlign: 'center' }}>Error: {error}</p>;
+    if (error) {
+        return (
+            <div style={{ textAlign: 'center', padding: '20px' }}>
+                <p style={{ color: 'red', fontSize: '18px', fontWeight: 'bold' }}>Error: {error}</p>
+                <p style={{ color: '#666', marginTop: '10px' }}>Check the browser console (F12) for more details.</p>
+                <button 
+                    onClick={() => window.location.reload()} 
+                    style={{ marginTop: '15px', padding: '10px 20px', cursor: 'pointer' }}
+                >
+                    Retry
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div className="football-container">
