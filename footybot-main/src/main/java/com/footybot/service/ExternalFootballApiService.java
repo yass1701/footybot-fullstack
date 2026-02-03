@@ -95,14 +95,23 @@ public class ExternalFootballApiService {
                 
                 String nationality = playerNode.path("nationality").isTextual() ? playerNode.path("nationality").asText() : "Unknown";
                 player.setNationality(nationality);
+
+                // Jersey / shirt number (if provided by API)
+                int number = playerNode.path("shirtNumber").asInt(
+                        playerNode.path("jerseyNumber").asInt(0)
+                );
+                player.setNumber(number);
                 
                 String dateOfBirth = playerNode.path("dateOfBirth").isTextual() ? playerNode.path("dateOfBirth").asText() : null;
                 int age = calculateAgeFromDateOfBirth(dateOfBirth);
                 player.setAge(age);
 
                 player.setTeam(teamName);
-                
-                player.setPhotoUrl("https://placehold.co/150x150/E8E8E8/000000?text=" + playerName.charAt(0));
+
+                // football-data.org does not provide real player photos.
+                // Use a stable avatar URL as a "player photo" fallback.
+                String encoded = URLEncoder.encode(playerName, StandardCharsets.UTF_8);
+                player.setPhotoUrl("https://ui-avatars.com/api/?name=" + encoded + "&background=6c5ce7&color=ffffff&size=256");
 
                 players.add(player);
             }

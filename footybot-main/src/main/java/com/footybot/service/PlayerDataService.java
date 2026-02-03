@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +60,17 @@ public class PlayerDataService {
                             player.setPosition(playerNode.path("position").asText(null));
                             player.setNationality(playerNode.path("nationality").asText(null));
                             player.setTeam(teamName);
-                            player.setPhotoUrl(teamLogo); // Set player photo to the team's crest
+                            // jersey/shirt number (may not exist in the source JSON, fallback to 0)
+                            int number = playerNode.path("shirtNumber").asInt(
+                                    playerNode.path("jerseyNumber").asInt(0)
+                            );
+                            player.setNumber(number);
+
+                            // football-data.org does not provide real player photos.
+                            // Use a stable avatar URL as a "player photo" fallback.
+                            String nameForAvatar = player.getName() == null ? "" : player.getName();
+                            String encoded = URLEncoder.encode(nameForAvatar, StandardCharsets.UTF_8);
+                            player.setPhotoUrl("https://ui-avatars.com/api/?name=" + encoded + "&background=6c5ce7&color=ffffff&size=256");
                             allPlayers.add(player);
                         }
                     }
