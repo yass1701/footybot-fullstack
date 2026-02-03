@@ -21,6 +21,8 @@ const TeamCard = ({ team, onClick }) => {
       <div className="team-details">
         <p>🏟 {team?.venue ?? '-'}</p>
         <p>👤 {coachName}</p>
+        <p>📅 Est. {team?.founded ?? '-'}</p>
+        <p>🎨 Colors: {team?.clubColors ?? '-'}</p>
       </div>
 
       <button
