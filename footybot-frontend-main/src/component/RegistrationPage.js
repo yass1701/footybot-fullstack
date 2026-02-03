@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Auth.css';
 
+const API_BASE = (process.env.REACT_APP_API_URL && !process.env.REACT_APP_API_URL.includes('localhost'))
+    ? process.env.REACT_APP_API_URL
+    : 'https://footybot-backend.onrender.com';
+
 const RegistrationPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -15,7 +19,7 @@ const RegistrationPage = () => {
         setIsError(false);
 
         try {
-            const response = await fetch('http://localhost:8080/api/auth/register', {
+            const response = await fetch(`${API_BASE}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),

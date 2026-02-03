@@ -37,7 +37,7 @@ const QuizPage = () => {
     const fetchQuizzes = async () => {
         try {
             console.log('Fetching quizzes from API...');
-            const response = await fetch('http://localhost:8080/api/quiz/quizzes');
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/quizzes`);
             if (response.ok) {
                 const data = await response.json();
                 console.log('Quiz data received:', data);
@@ -58,7 +58,7 @@ const QuizPage = () => {
             // Get username from localStorage or use a default
             const username = localStorage.getItem('username') || 'Guest User';
             
-        const response = await fetch(`http://localhost:8080/api/quiz/start/${quiz.id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/start/${quiz.id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -86,7 +86,7 @@ const QuizPage = () => {
 
     const fetchQuizQuestions = async (quizId) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/quiz/quizzes/${quizId}/questions`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/quizzes/${quizId}/questions`);
             if (response.ok) {
                 const data = await response.json();
                 setQuestions(data);
@@ -110,7 +110,7 @@ const QuizPage = () => {
         const timeSpent = Math.floor((Date.now() - questionStartTime) / 1000);
         
         try {
-            const response = await fetch('http://localhost:8080/api/quiz/submit-answer', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/submit-answer`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ const QuizPage = () => {
 
     const completeQuiz = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/quiz/complete/${quizAttempt.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/complete/${quizAttempt.id}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
@@ -314,7 +314,7 @@ const QuizPage = () => {
                     <button 
                         onClick={async () => {
                             try {
-                                const response = await fetch('http://localhost:8080/api/quiz/initialize', { 
+                                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/initialize`, { 
                                     method: 'POST'
                                 });
                                 if (response.ok) {

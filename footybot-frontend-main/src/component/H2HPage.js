@@ -24,7 +24,7 @@ const H2HPage = () => {
             };
 
             try {
-                const response = await fetch('http://localhost:8080/api/football-data', { headers });
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/football-data`, { headers });
                 const data = await response.json();
                 if (data.teams) {
                     setTeams(data.teams);
@@ -62,7 +62,7 @@ const H2HPage = () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:8080/api/matches/h2h?team1=${encodeURIComponent(team1)}&team2=${encodeURIComponent(team2)}`, { headers });
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/matches/h2h?team1=${encodeURIComponent(team1)}&team2=${encodeURIComponent(team2)}`, { headers });
             if (!response.ok) throw new Error('Could not fetch H2H data.');
             
             const data = await response.json();

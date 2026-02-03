@@ -31,8 +31,8 @@ const AdminPage = () => {
             console.log('AdminPage - Making API requests with headers:', headers);
             try {
                 const [matchesRes, teamsRes] = await Promise.all([
-                    fetch('http://localhost:8080/api/matches', { headers }),
-                    fetch('http://localhost:8080/api/football-data', { headers })
+                    fetch(`${process.env.REACT_APP_API_URL}/api/matches`, { headers }),
+                    fetch(`${process.env.REACT_APP_API_URL}/api/football-data`, { headers })
                 ]);
                 console.log('AdminPage - API responses:', {
                     matches: { status: matchesRes.status, ok: matchesRes.ok },
@@ -112,7 +112,7 @@ const AdminPage = () => {
         const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
         
         try {
-            const response = await fetch('http://localhost:8080/api/matches-with-scorers', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/matches-with-scorers`, {
                 method: 'POST',
                 headers,
                 body: JSON.stringify(newMatch)
@@ -123,7 +123,7 @@ const AdminPage = () => {
             // setScorers([]);
             // setShowScorersForm(false);
             
-            const updatedMatchesRes = await fetch('http://localhost:8080/api/matches', { headers });
+            const updatedMatchesRes = await fetch(`${process.env.REACT_APP_API_URL}/api/matches`, { headers });
             const updatedMatches = await updatedMatchesRes.json();
             setMatches(updatedMatches.map(dto => dto.match));
         } catch (err) {
@@ -136,7 +136,7 @@ const AdminPage = () => {
         
         const headers = { 'Authorization': `Bearer ${token}` };
         try {
-            const response = await fetch(`http://localhost:8080/api/matches/${matchId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/matches/${matchId}`, {
                 method: 'DELETE',
                 headers
             });

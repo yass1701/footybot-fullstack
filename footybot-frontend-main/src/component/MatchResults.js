@@ -27,8 +27,8 @@ const MatchResults = () => {
             try {
                 // Fetch both matches and the team list (for logos)
                 const [matchesRes, teamsRes] = await Promise.all([
-                    fetch('http://localhost:8080/api/matches', { headers }),
-                    fetch('http://localhost:8080/api/football-data', { headers })
+                    fetch(`${process.env.REACT_APP_API_URL}/api/matches`, { headers }),
+                    fetch(`${process.env.REACT_APP_API_URL}/api/football-data`, { headers })
                 ]);
 
                 if (!matchesRes.ok || !teamsRes.ok) {

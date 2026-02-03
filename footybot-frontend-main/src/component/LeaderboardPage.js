@@ -40,7 +40,7 @@ const LeaderboardPage = () => {
 
     const fetchQuizzes = async () => {
         try { 
-            const response = await fetch('http://localhost:8080/api/quiz/quizzes');
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/quizzes`);
             if (response.ok) {
                 const data = await response.json();
                 setQuizzes(data);
@@ -52,7 +52,7 @@ const LeaderboardPage = () => {
 
     const fetchGlobalLeaderboard = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/quiz/leaderboard');
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/leaderboard`);
             if (response.ok) {
                 const data = await response.json();
                 setLeaderboard(data);
@@ -64,7 +64,7 @@ const LeaderboardPage = () => {
 
     const fetchQuizLeaderboard = async (quizId) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/quiz/quizzes/${quizId}/leaderboard`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/quizzes/${quizId}/leaderboard`);
             if (response.ok) {
                 const data = await response.json();
                 setLeaderboard(data);
@@ -79,7 +79,7 @@ const LeaderboardPage = () => {
             // Get username from localStorage or use default
             const username = localStorage.getItem('username') || 'Guest User';
             
-        const response = await fetch(`http://localhost:8080/api/quiz/my-attempts?username=${encodeURIComponent(username)}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/my-attempts?username=${encodeURIComponent(username)}`, {
             headers: {
                 'Content-Type': 'application/json'
             }

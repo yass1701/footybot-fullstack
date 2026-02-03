@@ -33,8 +33,8 @@ const FootballData = () => {
 
             try {
                 const [teamsRes, standingsRes] = await Promise.all([
-                    fetch('http://localhost:8080/api/football-data', { headers }),
-                    fetch('http://localhost:8080/api/standings', { headers })
+                    fetch(`${process.env.REACT_APP_API_URL}/api/football-data`, { headers }),
+                    fetch(`${process.env.REACT_APP_API_URL}/api/standings`, { headers })
                 ]);
                 
                 if (!teamsRes.ok || !standingsRes.ok) {
@@ -76,7 +76,7 @@ const FootballData = () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:8080/api/players/team/${encodeURIComponent(team.name)}`, { headers });
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/players/team/${encodeURIComponent(team.name)}`, { headers });
             const data = await response.json();
             setPlayers(Array.isArray(data) ? data : []);
         } catch (err) {

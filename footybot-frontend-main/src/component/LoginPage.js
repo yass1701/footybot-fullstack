@@ -11,11 +11,15 @@ const LoginPage = () => {
 
     // Inside LoginPage.js, find the handleLogin function
 
+const API_BASE = (process.env.REACT_APP_API_URL && !process.env.REACT_APP_API_URL.includes('localhost'))
+    ? process.env.REACT_APP_API_URL
+    : 'https://footybot-backend.onrender.com';
+
 const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
     try {
-        const response = await fetch('http://localhost:8080/api/auth/login', {
+        const response = await fetch(`${API_BASE}/api/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password }),
@@ -55,6 +59,7 @@ const handleLogin = async (e) => {
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        autoComplete="current-password"
                         required
                     />
                 </div>
