@@ -24,7 +24,7 @@ import com.footybot.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://footybot-fullstack.vercel.app"})
 public class AuthController {
 
     private final UserRepository userRepository;
