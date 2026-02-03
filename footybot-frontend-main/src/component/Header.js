@@ -41,23 +41,23 @@ const Header = () => {
             {/* Main Navigation */}
             <nav className="main-navigation">
                 <div className="nav-container">
-                    <NavLink to="/" className="nav-item">
+                    <NavLink to="/" className="nav-item nav-btn">
                         <span className="nav-icon">🏆</span>
                         <span className="nav-text">Standings</span>
                     </NavLink>
-                    <NavLink to="/results" className="nav-item">
+                    <NavLink to="/results" className="nav-item nav-btn">
                         <span className="nav-icon">📊</span>
                         <span className="nav-text">Results</span>
                     </NavLink>
-                    <NavLink to="/h2h" className="nav-item">
+                    <NavLink to="/h2h" className="nav-item nav-btn">
                         <span className="nav-icon">⚔️</span>
                         <span className="nav-text">H2H Stats</span>
                     </NavLink>
-                    <NavLink to="/quiz" className="nav-item">
+                    <NavLink to="/quiz" className="nav-item nav-btn">
                         <span className="nav-icon">🧠</span>
                         <span className="nav-text">Quiz</span>
                     </NavLink>
-                    <NavLink to="/leaderboard" className="nav-item">
+                    <NavLink to="/leaderboard" className="nav-item nav-btn">
                         <span className="nav-icon">🏅</span>
                         <span className="nav-text">Leaderboard</span>
                     </NavLink>

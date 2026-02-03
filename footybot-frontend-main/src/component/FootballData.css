@@ -26,10 +26,9 @@
 
 .teams-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
     padding: 20px;
-
 }
 /* Styling for the "View Standings" toggle button */
 
@@ -142,142 +141,20 @@
     margin: 3px 0;
 }
 
-/* ===== MODERN SEARCH BAR STYLES ===== */
+/* Simple, clean search box */
 .search-container {
-    margin: 2rem auto;
-    width: 100%;
-    max-width: 500px;
-    position: relative;
-}
-
-/* Arsenal-themed modern search */
-.modern-search-wrapper {
-    display: flex;
-    align-items: center;
-    background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
-    border: 2px solid #ffd700;
-    border-radius: 30px;
-    padding: 8px;
-    box-shadow: 0 8px 25px rgba(220, 20, 60, 0.3);
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.modern-search-wrapper:hover {
-    box-shadow: 0 12px 35px rgba(220, 20, 60, 0.4);
-    transform: translateY(-2px);
-}
-
-.modern-search-wrapper:focus-within {
-    box-shadow: 0 12px 35px rgba(220, 20, 60, 0.4);
-    transform: translateY(-2px);
-    border-color: #ffed4e;
+    margin: 1.5rem auto 2rem;
+    text-align: center;
 }
 
 .search-input {
-    flex: 1;
-    border: none;
+    width: 300px;
+    max-width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
     outline: none;
-    font-size: 16px;
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 22px;
-    margin-right: 8px;
-    color: #333;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.search-input::placeholder {
-    color: #666;
-    font-weight: 400;
-}
-
-.search-input:focus {
-    background: white;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.search-btn {
-    background: #ffd700;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: #dc143c;
-    font-weight: bold;
-    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
-}
-
-.search-btn:hover {
-    background: #ffed4e;
-    transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
-}
-
-.search-btn:active {
-    transform: scale(0.95);
-}
-
-.search-icon {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-}
-
-/* Clear button for search */
-.search-clear-btn {
-    position: absolute;
-    right: 65px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: #999;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.search-clear-btn:hover {
-    color: #666;
-    background: rgba(0,0,0,0.1);
-}
-
-/* Alternative glassmorphism search (if you want to switch styles) */
-.glass-search-wrapper {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50px;
-    padding: 12px 20px;
-    transition: all 0.3s ease;
-}
-
-.glass-search-wrapper:hover {
-    background: rgba(255, 255, 255, 0.35);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.glass-search-wrapper .search-input {
-    background: transparent;
-    color: #333;
-}
-
-.glass-search-wrapper .search-btn {
-    background: linear-gradient(45deg, #667eea, #764ba2);
-    color: white;
+    font-size: 0.95rem;
 }
 
 /* Search results/suggestions */
