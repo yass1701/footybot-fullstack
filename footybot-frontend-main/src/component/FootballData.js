@@ -3,6 +3,7 @@ import { useAuth } from '../AuthContext';
 import PlayerCard from './PlayerCard';
 import TeamCard from "./TeamCard"; 
 import StandingsTable from './StandingsTable';
+import API_BASE from '../config/api';
 import './FootballData.css';
 
 const FootballData = () => {
@@ -33,8 +34,8 @@ const FootballData = () => {
 
             try {
                 const [teamsRes, standingsRes] = await Promise.all([
-                    fetch(`${process.env.REACT_APP_API_URL}/api/football-data`, { headers }),
-                    fetch(`${process.env.REACT_APP_API_URL}/api/standings`, { headers })
+                    fetch(`${API_BASE}/api/football-data`, { headers }),
+                    fetch(`${API_BASE}/api/standings`, { headers })
                 ]);
                 
                 if (!teamsRes.ok || !standingsRes.ok) {
@@ -48,7 +49,8 @@ const FootballData = () => {
                 setStandings(standingsData);
 
             } catch (err) {
-                setError(err.message);
+                console.error('Error fetching initial data:', err);
+                setError(`Failed to load data: ${err.message}. Please check your connection and try again.`);
             } finally {
                 setLoading(false);
             }
@@ -76,7 +78,7 @@ const FootballData = () => {
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/players/team/${encodeURIComponent(team.name)}`, { headers });
+            const response = await fetch(`${API_BASE}/api/players/team/${encodeURIComponent(team.name)}`, { headers });
             const data = await response.json();
             setPlayers(Array.isArray(data) ? data : []);
         } catch (err) {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../AuthContext';
 import { Link } from 'react-router-dom'; // Import Link for the register button
+import API_BASE from '../config/api';
 import './Auth.css'; // You will need to create this CSS file
 
 const LoginPage = () => {
@@ -8,12 +9,6 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const { login } = useAuth();
-
-    // Inside LoginPage.js, find the handleLogin function
-
-const API_BASE = (process.env.REACT_APP_API_URL && !process.env.REACT_APP_API_URL.includes('localhost'))
-    ? process.env.REACT_APP_API_URL
-    : 'https://footybot-backend.onrender.com';
 
 const handleLogin = async (e) => {
     e.preventDefault();
@@ -49,6 +44,7 @@ const handleLogin = async (e) => {
                         id="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
+                        autoComplete="username"
                         required
                     />
                 </div>
