@@ -2,8 +2,15 @@ import React from 'react';
 import './PlayerCard.css'; // 1. Import the new CSS file
 
 const PlayerCard = ({ player }) => {
-    // Fallback image if photoUrl is missing
-    const playerImage = player.photoUrl || 'https://via.placeholder.com/100';
+    const makeAvatarUrl = (name) => {
+        const safeName = (name || '').trim() || 'Player';
+        return `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=6c5ce7&color=ffffff&size=256`;
+    };
+
+    // If backend sends crest as photoUrl, show a player-style avatar instead.
+    const rawPhotoUrl = player?.photoUrl || '';
+    const looksLikeCrest = rawPhotoUrl.includes('crests.football-data.org');
+    const playerImage = rawPhotoUrl && !looksLikeCrest ? rawPhotoUrl : makeAvatarUrl(player?.name);
     const jerseyNumber = player.number && player.number > 0 ? player.number : '—';
 
     return (
