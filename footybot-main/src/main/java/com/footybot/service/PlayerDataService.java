@@ -124,13 +124,16 @@ public class PlayerDataService {
 
 public List<Team> getAllTeams() {
     List<Team> teams = new ArrayList<>();
-    File dataFile = new File("C:\\footydata\\players.json");
-    if (!dataFile.exists()) {
+    
+    // Use classpath resource (works both locally and on Render)
+    InputStream is = getClass().getClassLoader().getResourceAsStream("players.json");
+    if (is == null) {
+        System.err.println("--> CRITICAL ERROR: players.json not found on classpath in getAllTeams().");
         return teams; // Return empty list if file not found
     }
 
-    try (InputStream is = new FileInputStream(dataFile)) {
-        JsonNode root = objectMapper.readTree(is);
+    try (InputStream autoCloseIs = is) {
+        JsonNode root = objectMapper.readTree(autoCloseIs);
         JsonNode teamsNode = root.path("teams");
         if (teamsNode.isArray()) {
             for (JsonNode teamNode : teamsNode) {
@@ -140,8 +143,10 @@ public List<Team> getAllTeams() {
                 teams.add(team);
             }
         }
+        System.out.println("--> ✅ getAllTeams() loaded " + teams.size() + " teams from classpath.");
     } catch (IOException e) {
-        System.err.println("Error reading players.json for teams: " + e.getMessage());
+        System.err.println("--> Error reading players.json for teams: " + e.getMessage());
+        e.printStackTrace();
     }
     return teams;
 }
