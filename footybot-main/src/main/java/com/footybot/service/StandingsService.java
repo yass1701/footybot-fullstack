@@ -76,7 +76,28 @@ public class StandingsService {
      */
     public List<Standing> getLivePremierLeagueStandings() {
         try {
-            String json = externalFootballApiService.fetchPremierLeagueStandings();
+            // Get current season + current matchday so the table matches "current PL table"
+            Integer seasonYear = null;
+            Integer currentMatchday = null;
+            try {
+                String competitionJson = externalFootballApiService.fetchPremierLeagueCompetition();
+                JsonNode competitionRoot = objectMapper.readTree(competitionJson);
+                JsonNode currentSeason = competitionRoot.path("currentSeason");
+                String startDate = currentSeason.path("startDate").asText(null); // e.g. "2025-08-09"
+                if (startDate != null && startDate.length() >= 4) {
+                    seasonYear = Integer.parseInt(startDate.substring(0, 4));
+                }
+                currentMatchday = currentSeason.path("currentMatchday").isNumber()
+                        ? currentSeason.path("currentMatchday").asInt()
+                        : null;
+            } catch (Exception e) {
+                // If metadata fetch fails, fall back to default standings endpoint.
+                System.err.println("Failed to read competition metadata for season/matchday: " + e.getMessage());
+            }
+
+            String json = (seasonYear != null || currentMatchday != null)
+                    ? externalFootballApiService.fetchPremierLeagueStandings(seasonYear, currentMatchday)
+                    : externalFootballApiService.fetchPremierLeagueStandings();
             JsonNode root = objectMapper.readTree(json);
 
             JsonNode standingsArray = root.path("standings");

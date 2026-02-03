@@ -11,6 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -158,6 +160,35 @@ public class ExternalFootballApiService {
     
     public String fetchPremierLeagueStandings() throws IOException, InterruptedException {
         return makeApiCall("/competitions/PL/standings");
+    }
+
+    /**
+     * Fetch Premier League standings with optional query params.
+     * football-data.org supports params like season=YYYY and matchday=N.
+     */
+    public String fetchPremierLeagueStandings(Integer season, Integer matchday) throws IOException, InterruptedException {
+        StringBuilder endpoint = new StringBuilder("/competitions/PL/standings");
+        boolean hasQuery = false;
+
+        if (season != null) {
+            endpoint.append(hasQuery ? "&" : "?");
+            hasQuery = true;
+            endpoint.append("season=").append(URLEncoder.encode(String.valueOf(season), StandardCharsets.UTF_8));
+        }
+        if (matchday != null) {
+            endpoint.append(hasQuery ? "&" : "?");
+            hasQuery = true;
+            endpoint.append("matchday=").append(URLEncoder.encode(String.valueOf(matchday), StandardCharsets.UTF_8));
+        }
+
+        return makeApiCall(endpoint.toString());
+    }
+
+    /**
+     * Fetch competition metadata (includes currentSeason + currentMatchday).
+     */
+    public String fetchPremierLeagueCompetition() throws IOException, InterruptedException {
+        return makeApiCall("/competitions/PL");
     }
     
     public String fetchRecentMatches() throws IOException, InterruptedException {
