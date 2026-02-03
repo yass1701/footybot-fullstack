@@ -71,9 +71,9 @@ const Footer = () => {
           <div className="footer-bottom-content">
             <p>&copy; 2025 FutQuiz. All rights reserved.</p>
             <div className="footer-legal">
-              <a href="#" className="legal-link">Privacy Policy</a>
-              <a href="#" className="legal-link">Terms of Service</a>
-              <a href="#" className="legal-link">Cookie Policy</a>
+              <Link to="/privacy-policy" className="legal-link">Privacy Policy</Link>
+              <Link to="/terms-of-service" className="legal-link">Terms of Service</Link>
+              <Link to="/cookie-policy" className="legal-link">Cookie Policy</Link>
             </div>
           </div>
         </div>
