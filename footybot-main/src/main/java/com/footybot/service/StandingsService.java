@@ -15,16 +15,25 @@ import com.footybot.model.MatchWithH2HDTO;
 import com.footybot.model.Standing;
 import com.footybot.model.Team;
 import com.footybot.repository.MatchRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class StandingsService {
 
     private final MatchRepository matchRepository;
     private final PlayerDataService playerDataService;
+    private final ExternalFootballApiService externalFootballApiService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public StandingsService(MatchRepository matchRepository, PlayerDataService playerDataService) {
+    public StandingsService(
+            MatchRepository matchRepository,
+            PlayerDataService playerDataService,
+            ExternalFootballApiService externalFootballApiService
+    ) {
         this.matchRepository = matchRepository;
         this.playerDataService = playerDataService;
+        this.externalFootballApiService = externalFootballApiService;
     }
 
     public List<Standing> getStandingsForSeason(String season) {
@@ -57,6 +66,67 @@ public class StandingsService {
             sortedStandings.get(i).setRank(i + 1);
         }
         return sortedStandings;
+    }
+
+    /**
+     * Option A: LIVE Premier League table.
+     *
+     * Fetches the official standings from the external API and maps them into our {@link Standing} model
+     * so the existing frontend table works without changes.
+     */
+    public List<Standing> getLivePremierLeagueStandings() {
+        try {
+            String json = externalFootballApiService.fetchPremierLeagueStandings();
+            JsonNode root = objectMapper.readTree(json);
+
+            JsonNode standingsArray = root.path("standings");
+            if (!standingsArray.isArray()) return List.of();
+
+            JsonNode totalStanding = null;
+            for (JsonNode s : standingsArray) {
+                if ("TOTAL".equalsIgnoreCase(s.path("type").asText())) {
+                    totalStanding = s;
+                    break;
+                }
+            }
+            if (totalStanding == null) {
+                // fallback: take the first standings entry if TOTAL isn't present
+                totalStanding = standingsArray.size() > 0 ? standingsArray.get(0) : null;
+            }
+            if (totalStanding == null) return List.of();
+
+            JsonNode table = totalStanding.path("table");
+            if (!table.isArray()) return List.of();
+
+            List<Standing> result = new ArrayList<>();
+            for (JsonNode row : table) {
+                Standing standing = new Standing();
+
+                standing.setRank(row.path("position").asInt(0));
+                JsonNode team = row.path("team");
+                standing.setTeamName(team.path("name").asText(""));
+                standing.setCrestUrl(team.path("crest").asText(""));
+
+                standing.setPlayed(row.path("playedGames").asInt(0));
+                standing.setWin(row.path("won").asInt(0));
+                standing.setDraw(row.path("draw").asInt(0));
+                standing.setLoss(row.path("lost").asInt(0));
+                standing.setGoalsFor(row.path("goalsFor").asInt(0));
+                standing.setGoalsAgainst(row.path("goalsAgainst").asInt(0));
+                standing.setGoalDifference(row.path("goalDifference").asInt(0));
+                standing.setPoints(row.path("points").asInt(0));
+
+                result.add(standing);
+            }
+
+            // ensure consistent ordering by rank
+            result.sort(Comparator.comparingInt(Standing::getRank));
+            return result;
+        } catch (Exception e) {
+            System.err.println("Failed to fetch live PL standings: " + e.getMessage());
+            e.printStackTrace();
+            return List.of();
+        }
     }
 
     private void processTeamForStandings(Map<String, Standing> standingsMap, String teamName, int goalsFor, int goalsAgainst) {

@@ -23,6 +23,7 @@ public class StandingsController {
 
     @GetMapping("/standings")
     public List<Standing> getStandings() {
-        return standingsService.getStandingsForSeason("2025-26");
+        // Option A: live Premier League table from external API
+        return standingsService.getLivePremierLeagueStandings();
     }
 }
