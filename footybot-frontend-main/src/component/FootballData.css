@@ -3,8 +3,11 @@
 .football-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 24px 20px 32px;
     font-family: 'Arial', sans-serif;
+    background: radial-gradient(circle at top left, #eef2ff 0, #ffffff 45%),
+        radial-gradient(circle at bottom right, #e0f2fe 0, #ffffff 55%);
+    border-radius: 24px;
 }
 
 .football-container h1 {
@@ -17,11 +20,48 @@
 
 .teams-section {
     color: #34495e;
-    margin-bottom: 25px;
+    margin-bottom: 16px;
     font-size: 1.8rem;
-    border-bottom: 3px solid #3498db;
-    padding-bottom: 10px;
     text-align: center;
+}
+
+.home-strip {
+    max-width: 640px;
+    margin: 0 auto 10px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.home-strip-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.home-strip-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.home-strip-meta {
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.home-strip-badge {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.08em;
 }
 
 .teams-grid {
@@ -29,6 +69,168 @@
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 16px;
     padding: 20px;
+}
+
+/* Loading skeletons for initial data + players */
+.football-loading {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.football-loading-card {
+    width: 100%;
+    max-width: 720px;
+    padding: 24px 20px 28px;
+    border-radius: 24px;
+    background: radial-gradient(circle at top left, rgba(129, 140, 248, 0.18), rgba(255,255,255,0.95) 55%),
+        radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.18), rgba(255,255,255,0.98) 55%);
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.2);
+}
+
+.football-loading-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.football-ball {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 4px 10px rgba(15, 23, 42, 0.3));
+    animation: ball-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes ball-pulse {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+    40% {
+        transform: translateY(-6px) scale(1.05);
+    }
+    60% {
+        transform: translateY(-3px) scale(1.02);
+    }
+}
+
+.football-loading-title {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 4px;
+}
+
+.football-loading-subtitle {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #4b5563;
+    margin: 0 0 18px;
+}
+
+.skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+}
+
+.skeleton-card {
+    border-radius: 16px;
+    padding: 16px 14px;
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    margin: 0 auto 12px;
+    background: #e5e7eb;
+}
+
+.skeleton-line {
+    height: 10px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    margin-bottom: 6px;
+}
+
+.skeleton-line-lg {
+    width: 80%;
+    margin: 0 auto 8px;
+}
+
+.skeleton-line-sm {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.skeleton-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0)
+    );
+    transform: translateX(-100%);
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.football-progress {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.football-progress-track {
+    width: 220px;
+    max-width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    overflow: hidden;
+}
+
+.football-progress-bar {
+    width: 40%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #22c55e, #4f46e5);
+    animation: progress-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes progress-pulse {
+    0% {
+        transform: translateX(-60%);
+    }
+    100% {
+        transform: translateX(120%);
+    }
+}
+
+.football-progress-text {
+    font-size: 0.8rem;
+    color: #6b7280;
 }
 /* Styling for the "View Standings" toggle button */
 
@@ -143,7 +345,7 @@
 
 /* Simple, clean search box */
 .search-container {
-    margin: 1.5rem auto 2rem;
+    margin: 1.2rem auto 1rem;
     text-align: center;
 }
 
@@ -155,6 +357,38 @@
     border: 1px solid #ddd;
     outline: none;
     font-size: 0.95rem;
+}
+
+.filter-chips {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.filter-chip {
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    color: #4b5563;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease,
+        box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.filter-chip:hover {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+.filter-chip.active {
+    background: #2563eb;
+    border-color: #1d4ed8;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
 }
 
 /* Search results/suggestions */

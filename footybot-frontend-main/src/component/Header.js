@@ -41,23 +41,53 @@ const Header = () => {
             {/* Main Navigation */}
             <nav className="main-navigation">
                 <div className="nav-container">
-                    <NavLink to="/" className="nav-item nav-btn">
+                    <NavLink
+                        to="/"
+                        title="Standings"
+                        className={({ isActive }) =>
+                            `nav-item nav-btn ${isActive ? 'active' : ''}`
+                        }
+                    >
                         <span className="nav-icon">🏆</span>
                         <span className="nav-text">Standings</span>
                     </NavLink>
-                    <NavLink to="/results" className="nav-item nav-btn">
+                    <NavLink
+                        to="/results"
+                        title="Results"
+                        className={({ isActive }) =>
+                            `nav-item nav-btn ${isActive ? 'active' : ''}`
+                        }
+                    >
                         <span className="nav-icon">📊</span>
                         <span className="nav-text">Results</span>
                     </NavLink>
-                    <NavLink to="/h2h" className="nav-item nav-btn">
+                    <NavLink
+                        to="/h2h"
+                        title="Head to head stats"
+                        className={({ isActive }) =>
+                            `nav-item nav-btn ${isActive ? 'active' : ''}`
+                        }
+                    >
                         <span className="nav-icon">⚔️</span>
                         <span className="nav-text">H2H Stats</span>
                     </NavLink>
-                    <NavLink to="/quiz" className="nav-item nav-btn">
+                    <NavLink
+                        to="/quiz"
+                        title="Quiz"
+                        className={({ isActive }) =>
+                            `nav-item nav-btn ${isActive ? 'active' : ''}`
+                        }
+                    >
                         <span className="nav-icon">🧠</span>
                         <span className="nav-text">Quiz</span>
                     </NavLink>
-                    <NavLink to="/leaderboard" className="nav-item nav-btn">
+                    <NavLink
+                        to="/leaderboard"
+                        title="Leaderboard"
+                        className={({ isActive }) =>
+                            `nav-item nav-btn ${isActive ? 'active' : ''}`
+                        }
+                    >
                         <span className="nav-icon">🏅</span>
                         <span className="nav-text">Leaderboard</span>
                     </NavLink>

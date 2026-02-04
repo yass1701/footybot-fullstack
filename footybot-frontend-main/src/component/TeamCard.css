@@ -18,10 +18,20 @@
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
 }
 
+.team-logo-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 30%, #ffffff, #e5e7eb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
 .team-logo {
-    width: 64px;
-    height: 64px;
-    margin-bottom: 15px;
+    width: 56px;
+    height: 56px;
 }
 
 .team-name {
@@ -42,6 +52,22 @@
 
 .team-details p {
     margin: 2px 0;
+}
+
+.team-meta-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.meta-badge {
+    font-size: 0.75rem;
+    background: #f3f4f6;
+    color: #374151;
+    padding: 4px 8px;
+    border-radius: 999px;
 }
 
 .league-badge {

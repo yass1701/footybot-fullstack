@@ -15,9 +15,11 @@ const FootballData = () => {
     const [selectedTeam, setSelectedTeam] = useState(null);
     const [playerSearchTerm, setPlayerSearchTerm] = useState('');
     const [teamSearchTerm, setTeamSearchTerm] = useState('');
+    const [teamFilter, setTeamFilter] = useState('all'); // all | big6 | london | top4
     const [loadingPlayers, setLoadingPlayers] = useState(false);
     const [standings, setStandings] = useState([]);
     const [viewMode, setViewMode] = useState('teams'); // 'teams' or 'standings'
+    const [showLoadingProgress, setShowLoadingProgress] = useState(false);
 
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -33,6 +35,11 @@ const FootballData = () => {
             };
 
             try {
+                // Show a subtle progress indicator if loading takes a bit longer
+                const progressTimer = setTimeout(() => {
+                    setShowLoadingProgress(true);
+                }, 2000);
+
                 console.log('Fetching data from:', API_BASE);
                 console.log('Token present:', !!token);
                 
@@ -71,13 +78,53 @@ const FootballData = () => {
                 setError(`Failed to load data: ${err.message}. Please check your connection and try again.`);
             } finally {
                 setLoading(false);
+                setShowLoadingProgress(false);
             }
         };
         fetchInitialData();
     }, [token]);
 
-    const filteredPlayers = players.filter(p => p.name.toLowerCase().includes(playerSearchTerm.toLowerCase()));
-    const filteredTeams = teams.filter(t => t.name.toLowerCase().includes(teamSearchTerm.toLowerCase()));
+    const filteredPlayers = players.filter(p =>
+        p.name.toLowerCase().includes(playerSearchTerm.toLowerCase())
+    );
+
+    const BIG_SIX = [
+        'Arsenal FC',
+        'Chelsea FC',
+        'Liverpool FC',
+        'Manchester City FC',
+        'Manchester United FC',
+        'Tottenham Hotspur FC',
+    ];
+
+    const LONDON_CLUBS = [
+        'Arsenal FC',
+        'Chelsea FC',
+        'Tottenham Hotspur FC',
+        'West Ham United FC',
+    ];
+
+    const applyTeamFilter = (teamList) => {
+        switch (teamFilter) {
+            case 'big6':
+                return teamList.filter((t) => BIG_SIX.includes(t.name));
+            case 'london':
+                return teamList.filter((t) => LONDON_CLUBS.includes(t.name));
+            case 'top4':
+                return teamList
+                    .slice()
+                    .sort((a, b) => (a.position || 99) - (b.position || 99))
+                    .slice(0, 4);
+            default:
+                return teamList;
+        }
+    };
+
+    const filteredTeams = applyTeamFilter(
+        teams.filter((t) =>
+            t.name.toLowerCase().includes(teamSearchTerm.toLowerCase())
+        )
+    );
 
     const fetchPlayers = async (team) => {
         setSelectedTeam(team);
@@ -112,7 +159,45 @@ const FootballData = () => {
         setPlayerSearchTerm(''); 
     };
 
-    if (loading) return <p style={{ textAlign: 'center' }}>Loading all data...</p>;
+    if (loading) {
+        return (
+            <div className="football-loading">
+                <div className="football-loading-card">
+                    <div className="football-loading-icon">
+                        <span className="football-ball">⚽</span>
+                    </div>
+                    <p className="football-loading-title">
+                        Loading your football universe...
+                    </p>
+                    <p className="football-loading-subtitle">
+                        Fetching teams, standings and players.
+                    </p>
+
+                    <div className="skeleton-grid">
+                        {[1, 2, 3, 4].map((i) => (
+                            <div key={i} className="skeleton-card">
+                                <div className="skeleton-logo" />
+                                <div className="skeleton-line skeleton-line-lg" />
+                                <div className="skeleton-line" />
+                                <div className="skeleton-line skeleton-line-sm" />
+                            </div>
+                        ))}
+                    </div>
+
+                    {showLoadingProgress && (
+                        <div className="football-progress">
+                            <div className="football-progress-track">
+                                <div className="football-progress-bar" />
+                            </div>
+                            <span className="football-progress-text">
+                                Still working on live data...
+                            </span>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
     if (error) {
         return (
             <div style={{ textAlign: 'center', padding: '20px' }}>
@@ -138,11 +223,25 @@ const FootballData = () => {
                     <div className="search-container">
                         <input type="text" placeholder="Search for a player..." className="search-input" value={playerSearchTerm} onChange={(e) => setPlayerSearchTerm(e.target.value)} />
                     </div>
-                    {loadingPlayers ? <p style={{ textAlign: 'center' }}>Loading players...</p> : (
+                    {loadingPlayers ? (
                         <div className="teams-grid">
-                            {filteredPlayers.length > 0 ? filteredPlayers.map((player) => (
-                                <PlayerCard key={player.id} player={player} />
-                            )) : <p>No players found.</p>}
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="skeleton-card">
+                                    <div className="skeleton-logo" />
+                                    <div className="skeleton-line skeleton-line-lg" />
+                                    <div className="skeleton-line" />
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="teams-grid">
+                            {filteredPlayers.length > 0 ? (
+                                filteredPlayers.map((player) => (
+                                    <PlayerCard key={player.id} player={player} />
+                                ))
+                            ) : (
+                                <p>No players found.</p>
+                            )}
                         </div>
                     )}
                 </div>
@@ -157,9 +256,77 @@ const FootballData = () => {
 
                     {viewMode === 'teams' ? (
                         <>
-                            <h2 className="teams-section">Premier League Teams ({filteredTeams.length})</h2>
+                            <div className="home-strip">
+                                <div className="home-strip-main">
+                                    <span className="home-strip-title">
+                                        Premier League
+                                    </span>
+                                    <span className="home-strip-meta">
+                                        Season 2025–26 · {teams.length} teams
+                                    </span>
+                                </div>
+                                <span className="home-strip-badge">PL</span>
+                            </div>
+
+                            <h2 className="teams-section">
+                                Premier League Teams ({filteredTeams.length})
+                            </h2>
                             <div className="search-container">
-                                <input type="text" placeholder="Search for a team..." className="search-input" value={teamSearchTerm} onChange={(e) => setTeamSearchTerm(e.target.value)} />
+                                <input
+                                    type="text"
+                                    placeholder="Search for a team..."
+                                    className="search-input"
+                                    value={teamSearchTerm}
+                                    onChange={(e) =>
+                                        setTeamSearchTerm(e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div className="filter-chips">
+                                <button
+                                    type="button"
+                                    className={
+                                        teamFilter === 'all'
+                                            ? 'filter-chip active'
+                                            : 'filter-chip'
+                                    }
+                                    onClick={() => setTeamFilter('all')}
+                                >
+                                    All teams
+                                </button>
+                                <button
+                                    type="button"
+                                    className={
+                                        teamFilter === 'big6'
+                                            ? 'filter-chip active'
+                                            : 'filter-chip'
+                                    }
+                                    onClick={() => setTeamFilter('big6')}
+                                >
+                                    Big 6
+                                </button>
+                                <button
+                                    type="button"
+                                    className={
+                                        teamFilter === 'london'
+                                            ? 'filter-chip active'
+                                            : 'filter-chip'
+                                    }
+                                    onClick={() => setTeamFilter('london')}
+                                >
+                                    London clubs
+                                </button>
+                                <button
+                                    type="button"
+                                    className={
+                                        teamFilter === 'top4'
+                                            ? 'filter-chip active'
+                                            : 'filter-chip'
+                                    }
+                                    onClick={() => setTeamFilter('top4')}
+                                >
+                                    Top 4
+                                </button>
                             </div>
                             <div className="teams-grid">
                                 {filteredTeams.map((team) => (
